@@ -7,6 +7,8 @@ from gymnasium import spaces
 from gymnasium import utils
 from gymnasium.envs.mujoco import MujocoEnv
 
+#It is a modified version of ETH Zurich's reinmav-gym package
+
 DEFAULT_CAMERA_CONFIG = {
     "trackbodyid": 0,
     "distance": 2.04,

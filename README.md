@@ -1,6 +1,6 @@
 # gym-quad
 
-`gym-quad` is a Gym-based package for quadcopter simulations, optimized for `mujoco>=2.3.3` and the latest Gym releases. It is based on ETH Zurich's reinmav-gym package
+`gym-quad` is a Gym-based package for quadcopter simulations, optimized for `mujoco>=2.3.3` and the latest Gym releases. 
 
 ### Features:
 
@@ -26,4 +26,4 @@ env = gym.make("UAVQuadBase-v0")
 
 For further details, refer to the Gymnasium documentation.
 
-(Note: I created this repo for personal practice)
+(Note: I created this repo for personal practice, I will keep updating it as my research progresses.)

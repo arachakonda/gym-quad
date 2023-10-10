@@ -12,7 +12,7 @@
 Clone the repository and install:
 
 ```bash
-git clone https://github.com/yourusername/gym-quad.git
+git clone https://github.com/arachakonda/gym-quad.git
 cd gym-quad
 pip install -e .
 ```

@@ -11,7 +11,7 @@ class Trajectory:
 
 def main():
 
-    env = gym.make('UAVQuadBase-v0', render_mode='human')
+    env = gym.make('UAVQuadBaseSlung-v0', render_mode='human')
 
     dt = env.dt
     mass = env.mass

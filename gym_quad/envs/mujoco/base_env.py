@@ -7,7 +7,6 @@ from gymnasium import spaces
 from gymnasium import utils
 from gymnasium.envs.mujoco import MujocoEnv
 
-#It is a modified version of ETH Zurich's reinmav-gym package
 
 DEFAULT_CAMERA_CONFIG = {
     "trackbodyid": 0,
@@ -83,7 +82,6 @@ class UAVQuadBase(MujocoEnv, utils.EzPickle):
         self.mujoco_qvel = np.array(qvel)
 
         obs = np.concatenate([qpos, qvel]).flatten()
-        print(obs)
         return obs
     
     @property

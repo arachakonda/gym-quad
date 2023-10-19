@@ -1,22 +1,20 @@
-import os
-import math
-from abc import ABC
-from typing import Tuple, Dict
 import numpy as np
+import os
+
 from gymnasium import spaces
 from gymnasium import utils
 from gymnasium.envs.mujoco import MujocoEnv
 
-
 DEFAULT_CAMERA_CONFIG = {
     "trackbodyid": 0,
-    "distance": 2.04,
+    "distance": 5.04,
 }
 
-class UAVQuadBaseSlung(MujocoEnv, utils.EzPickle):
+
+class UAVQuadHover(MujocoEnv, utils.EzPickle):
     metadata = {"render_modes":["human", "rgb_array","depth_array"], "render_fps":50}
     def __init__(self, 
-                 xml_file="quadrotor_slung_payload.xml", 
+                 xml_file="quadrotor_hovering.xml", 
                  frame_skip: int = 2, 
                  reset_noise_scale: float = 0.01, 
                  **kwargs,
@@ -40,19 +38,29 @@ class UAVQuadBaseSlung(MujocoEnv, utils.EzPickle):
             ],
             "render_fps": int(np.round(1.0/self.dt))
         }
-        
-    def step(self,action):
-        self.do_simulation(self.clip_action(action),self.frame_skip)
+
+    def step(self, action):
+        self.do_simulation(self.clip_action(action), self.frame_skip)
         observation = self._get_obs()
-        terminated = bool(not np.isfinite(observation).all())
-        reward = 0
-        info ={}
+
+
+        alive_bonus = 100
+        reward = - np.sum(np.square(observation[0:3] - np.array([0.0, 0, 1.0]))) * 10 \
+                 - np.sum(np.square(observation[7:] - np.zeros(6))) * 0.1 \
+                 - np.sum(np.square(action)) \
+                 + np.sum(action) * 0.1 \
+                 + alive_bonus
+
+        terminated = not(np.isfinite(observation).all() \
+                  and observation[2] > 0.3 \
+                  and abs(observation[0]) < 2.0 \
+                  and abs(observation[1]) < 2.0)
+        info = {}
 
         if self.render_mode == "human":
             self.render()
-        
-        return observation,reward,terminated,False,info
-    
+
+        return observation, reward, terminated, False, info
 
     def clip_action(self,action):
         action = np.clip(action, a_min = 0, a_max=np.inf)
@@ -91,4 +99,3 @@ class UAVQuadBaseSlung(MujocoEnv, utils.EzPickle):
     @property
     def gravity(self):
         return self.model.opt.gravity
-        

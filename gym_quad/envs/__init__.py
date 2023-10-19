@@ -11,3 +11,9 @@ register(
     entry_point="gym_quad.envs.mujoco:UAVQuadBaseSlung",
 
 )
+
+register(
+    id="UAVQuadHover-v0",
+    entry_point="gym_quad.envs.mujoco:UAVQuadHover",
+
+)

@@ -14,7 +14,7 @@ env = DummyVecEnv([lambda: env])
 log_path = os.path.join('Training', 'Logs')
 
 model = PPO('MlpPolicy', env, verbose=0, tensorboard_log=log_path)
-model.learn(total_timesteps=300000, progress_bar=True)
+model.learn(total_timesteps=30000000, progress_bar=True)
 
 PPO_Path = os.path.join('Training', 'Models', 'PPO_quad')
 model.save(PPO_Path)
@@ -22,12 +22,3 @@ model.save(PPO_Path)
 
 
 evaluate_policy(model, env, n_eval_episodes=10, render=False)
-obs = env.reset()
-
-env = None
-env = gym.make('UAVQuadHover-v0', render_mode='human')
-for i in range(1000):
-    action, _states = model.predict(obs)
-    obs, rewards, done,_, info = env.step(action)
-    env.render()
-
